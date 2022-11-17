@@ -19,6 +19,6 @@ export class Auto {
   @Column()
   vin: string;
 
-  @OneToMany(() => Rent, (rent) => rent.auto)
-  autoId : Rent[]
+  @OneToMany(() => Rent, (rent) => rent.autos)
+  rent  : Rent[]
 }

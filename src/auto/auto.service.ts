@@ -24,13 +24,11 @@ export class AutoService {
         return auto;
     }
 
-    async update(id: number, dto : ChangeAutoDto): Promise<void>{
+    async update(id: number, dto : ChangeAutoDto): Promise<Auto>{
         const loadAuto = await this.autoRepository.findOneBy({id});
-        loadAuto.brand = dto.brand;
-        loadAuto.model = dto.model;
-        loadAuto.num = dto.num;
-        loadAuto.vin = dto.vin;
-        await this.autoRepository.save(loadAuto);
+        Object.assign(loadAuto, dto);
+
+        return await this.autoRepository.save(loadAuto);
     }
     async remove(id: number): Promise<void>{
         await this.autoRepository.delete({id});

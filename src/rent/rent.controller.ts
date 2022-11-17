@@ -12,6 +12,6 @@ export class RentController {
     }
     @Get()
     getAllRents(){
-        return this.getAllRents();
+        return this.rentService.findAll();
     }
 }
