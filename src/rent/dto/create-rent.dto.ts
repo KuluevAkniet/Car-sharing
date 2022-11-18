@@ -1,7 +1,7 @@
 
 export class CreateRentDto{
 
-    readonly startDay: string;
+    readonly startDay: Date;
 
-    readonly endDay: string;
+    readonly endDay: Date;
 }

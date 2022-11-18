@@ -16,4 +16,8 @@ export class RentService {
         const rent = await this.rentRepository.find();
         return rent;
     }
+
+    async remove(id: number): Promise<void>{
+        await this.rentRepository.delete({id});
+    }
 }
