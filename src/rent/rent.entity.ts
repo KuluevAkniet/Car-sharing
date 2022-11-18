@@ -7,6 +7,16 @@ export class Rent {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @ManyToOne(() => Auto, (autos) => autos.rent)
+  @JoinColumn({name : 'autoId'})
+  autos : Auto
+
+  @Column()
+  autoId : number;
+
+  @Column()
+  tariff : number;
+
   @Type(() => Date)
   @Column('text')
   startDay : Date;
@@ -16,9 +26,8 @@ export class Rent {
   endDay : Date;
 
   @Column()
-  autoId : number;
+  cost : number;
 
-  @ManyToOne(() => Auto, (autos) => autos.rent)
-  @JoinColumn({name : 'autoId'})
-  autos : Auto
+  @Column()
+  distance : number;
 }

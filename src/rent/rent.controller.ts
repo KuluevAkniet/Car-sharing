@@ -6,9 +6,10 @@ import { RentService } from './rent.service';
 export class RentController {
 
     constructor(private rentService: RentService){}
+    
     @Post()
-    create(@Body() autoDto : CreateRentDto){
-        return this.rentService.create(autoDto);
+    create(@Body() rentDto : CreateRentDto){
+        return this.rentService.create(rentDto);
     }
     @Get()
     getAllRents(){
