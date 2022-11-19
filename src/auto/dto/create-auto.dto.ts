@@ -7,4 +7,6 @@ export class CreateAutoDto{
     readonly num: string;
 
     readonly vin: string;
+
+    statistic? : number;
 }

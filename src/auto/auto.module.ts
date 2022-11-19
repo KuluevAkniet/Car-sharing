@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Rent } from 'src/rent/rent.entity';
-import { AutoController } from './auto.controller';
+import { AutoController, AutoStatController } from './auto.controller';
 import { Auto } from './auto.entity';
 import { AutoService } from './auto.service';
 
 @Module({
-  controllers: [AutoController],
+  controllers: [AutoController, AutoStatController],
   providers: [AutoService],
   imports: [
     TypeOrmModule.forFeature([Auto, Rent])

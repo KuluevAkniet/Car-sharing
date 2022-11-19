@@ -32,19 +32,6 @@ export class AutoService {
 
     async findOne(id: number): Promise<Auto>{
         const auto = await this.autoRepository.findOneBy({id}); 
-        const rent = await this.rentRepository.find({
-            where : {
-                autoId : id
-            }
-        })
-        let stat : number = 0;
-
-        for(let key of rent){
-            stat += key.distance;
-        }
-
-        console.log(stat)
-
         return auto;
     }
 
@@ -56,5 +43,36 @@ export class AutoService {
     }
     async remove(id: number): Promise<void>{
         await this.autoRepository.delete({id});
+    }
+
+    async findOneStat(id: number){
+        const rent = await this.rentRepository.find({
+            where : {
+                autoId : id
+            }
+        })
+        let stat = 0;
+
+        for(let key of rent){
+            stat += key.distance;
+        }
+
+        return {
+            autoId : id,
+            stat : stat
+        }
+    }
+
+    async findAllStat(){
+        const rent = await this.rentRepository.find();
+        let stat = 0;
+
+        for(let key of rent){
+            stat += key.distance;
+        }
+
+        return {
+            stat : stat
+        }
     }
 }

@@ -1,5 +1,4 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-import { CreateRentDto } from 'src/rent/dto/create-rent.dto';
 import { AutoService } from './auto.service';
 import { ChangeAutoDto } from './dto/change-auto.dto';
 import { CreateAutoDto } from './dto/create-auto.dto';
@@ -29,5 +28,19 @@ export class AutoController {
     removeOne(@Param('id') id : number){
         return this.autoService.remove(id);
     }
+}
+
+@Controller('statistic')
+export class AutoStatController {
     
+    constructor(private autoService : AutoService){}
+
+    @Get()
+    getAllCar(){
+        return this.autoService.findAllStat();
+    }
+    @Get(':id')
+    getOne(@Param('id') id : number){
+        return this.autoService.findOneStat(id);
+    }
 }
