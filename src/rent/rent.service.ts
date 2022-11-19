@@ -46,6 +46,9 @@ export class RentService {
         const allCar = await this.rentRepository.find({
             where :{
                 autoId : id,
+            },
+            order : {
+                startDay : "ASC"
             }
         });
         const rent = this.activeRent(allCar, today);
