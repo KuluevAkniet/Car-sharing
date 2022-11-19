@@ -1,8 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { throwError } from 'rxjs';
-import { ILike, Not, Repository } from 'typeorm';
-import { domainToASCII } from 'url';
+import { Repository } from 'typeorm';
 import { CreateRentDto } from './dto/create-rent.dto';
 import { tariffs } from './enum/enum';
 import { Rent } from './rent.entity';
