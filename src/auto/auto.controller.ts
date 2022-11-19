@@ -1,4 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { CreateRentDto } from 'src/rent/dto/create-rent.dto';
 import { AutoService } from './auto.service';
 import { ChangeAutoDto } from './dto/change-auto.dto';
 import { CreateAutoDto } from './dto/create-auto.dto';

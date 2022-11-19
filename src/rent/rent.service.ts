@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { LessThanOrEqual, MoreThan, Repository } from 'typeorm';
 import { CreateRentDto } from './dto/create-rent.dto';
 import { tariffs } from './enum/enum';
 import { Rent } from './rent.entity';
@@ -16,7 +16,7 @@ export class RentService {
                 autoId : dto.autoId
             }
         });
-        
+
         if(dto.tariff > 3 || dto.tariff < 0){
             throw console.log('incorrect value of tariff');
         }
@@ -36,6 +36,20 @@ export class RentService {
 
     async findAll(): Promise<Rent[]>{
         const rent = await this.rentRepository.find();
+        return rent;
+    }
+
+    async findAllActive(id : number) : Promise<Rent[]>{
+
+        const today = new Date;
+
+        const allCar = await this.rentRepository.find({
+            where :{
+                autoId : id,
+            }
+        });
+        const rent = this.activeRent(allCar, today);
+
         return rent;
     }
 
@@ -88,5 +102,21 @@ export class RentService {
         }
 
         return true;
+    }
+
+    activeRent(array, date){
+        const rent = [];
+
+        for(let key of array){
+            const dateStart : Date = new Date(key.startDay);
+            const dateEnd : Date = new Date(key.endDay);
+
+            if(dateStart <= date && dateEnd > date){
+                rent.push(key);
+            }
+
+        }
+
+        return rent;
     }
 }

@@ -20,4 +20,9 @@ export class RentController {
     removeRent(@Param('id') id : number){
         return this.rentService.remove(id)
     }
+
+    @Get(':id')
+    getAll(@Param('id') id : number){
+        return this.rentService.findAllActive(id)
+    }
 }
