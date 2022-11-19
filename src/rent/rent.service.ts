@@ -68,21 +68,21 @@ export class RentService {
             dto.cost = days * tariff.cost;
 
             if(days >= 3 && days <= 5){
-                dto.cost = dto.cost - ((dto.cost / 100)* 5);
+                dto.cost = Math.floor(dto.cost - ((dto.cost / 100)* 5));
             }
 
             if(days >= 6 && days <= 14){
-                dto.cost = dto.cost - ((dto.cost / 100)* 10);
+                dto.cost = Math.floor(dto.cost - ((dto.cost / 100)* 10));
             }
 
             if(days >= 15 && days <= 30){
-                dto.cost = dto.cost - ((dto.cost / 100)* 5);
+                dto.cost = Math.floor(dto.cost - ((dto.cost / 100)* 5));
             }
     }
 
     rentCondition(array, day : Date) : boolean{
         for(let key of array){
-            if(this.checkDate(key.startDay, day) <= 3){
+            if(Math.abs(this.checkDate(key.startDay, day)) <= 3){
                 return false;
             }
         }
