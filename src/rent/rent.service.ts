@@ -1,6 +1,8 @@
-import { ConsoleLogger, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { throwError } from 'rxjs';
+import { ILike, Not, Repository } from 'typeorm';
+import { domainToASCII } from 'url';
 import { CreateRentDto } from './dto/create-rent.dto';
 import { tariffs } from './enum/enum';
 import { Rent } from './rent.entity';
@@ -10,15 +12,27 @@ export class RentService {
     constructor(@InjectRepository(Rent) private rentRepository : Repository<Rent>){}
 
     async create(dto : CreateRentDto){
-        const days = this.checkDate(dto.startDay, dto.endDay);
-        if(days !== 0 && dto.tariff <= 3){
-            const tariff = tariffs[dto.tariff - 1]
+    
+        const allCar = await this.rentRepository.find({
+            where : {
+                autoId : dto.autoId
+            }
+        });
+        
+        if(dto.tariff > 3 || dto.tariff < 0){
+            throw console.log('incorrect value of tariff');
+        }
 
-            dto.cost = days * tariff.cost;
-            dto.distance = days * tariff.distance;
-            return await this.rentRepository.save(dto);
+        if(this.rentCondition(allCar, dto.startDay)){
+            const days = this.checkDate(dto.startDay, dto.endDay);
+            if(days <= 30 && days > 1){
+                this.rentCost(days, dto);
+                return await this.rentRepository.save(dto);
+            }else{
+                throw console.error('incorrect value');
+            }
         }else{
-            throw console.error('incorrect value');
+            throw console.error('condition failure')
         }
     }
 
@@ -40,12 +54,41 @@ export class RentService {
 
         const weekStart : number = date1.getDay();
         const weekEnd : number = date1.getDay();
-        const days : number = Math.floor(data/1000/60/60/24);
-        
-        if(days <= 30 && days > 1 && weekStart < 5 && weekEnd < 5){
+
+        if(weekEnd < 5 && weekStart < 5){
+            const days : number = Math.floor(data/1000/60/60/24);
             return days;
         }else{
-            throw console.error('incorrect value');
+            throw console.error('Today is day off');
         }
+    }
+
+    rentCost(days : number, dto : CreateRentDto){
+        const tariff = tariffs[dto.tariff - 1];
+
+            dto.distance = days * tariff.distance;
+            dto.cost = days * tariff.cost;
+
+            if(days >= 3 && days <= 5){
+                dto.cost = dto.cost - ((dto.cost / 100)* 5);
+            }
+
+            if(days >= 6 && days <= 14){
+                dto.cost = dto.cost - ((dto.cost / 100)* 10);
+            }
+
+            if(days >= 15 && days <= 30){
+                dto.cost = dto.cost - ((dto.cost / 100)* 5);
+            }
+    }
+
+    rentCondition(array, day : Date) : boolean{
+        for(let key of array){
+            if(this.checkDate(key.startDay, day) <= 3){
+                return false;
+            }
+        }
+
+        return true;
     }
 }

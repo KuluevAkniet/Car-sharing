@@ -6,7 +6,7 @@ import { RentService } from './rent.service';
 export class RentController {
 
     constructor(private rentService: RentService){}
-    
+
     @Post()
     create(@Body() rentDto : CreateRentDto){
         return this.rentService.create(rentDto);
