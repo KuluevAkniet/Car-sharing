@@ -5,6 +5,8 @@ import { Auto } from "./auto/auto.entity";
 import { AutoModule } from "./auto/auto.module";
 import { Rent } from "./rent/rent.entity";
 import { RentModule } from "./rent/rent.module";
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -25,7 +27,9 @@ import { RentModule } from "./rent/rent.module";
     }),
 
     AutoModule,
-    RentModule
+    RentModule,
+    AuthModule,
+    UsersModule
   ],
 })
 
