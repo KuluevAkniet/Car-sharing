@@ -11,17 +11,13 @@ export class CreateRentDto{
     readonly tariff : number;
 
     @IsNotEmpty()
-    @IsDate()
     readonly startDay: Date;
 
     @IsNotEmpty()
-    @IsDate()
     readonly endDay: Date;
 
-    @IsNumber()
     cost? : number;
 
-    @IsNumber()
     distance? : number;
 
     @IsNumber()
