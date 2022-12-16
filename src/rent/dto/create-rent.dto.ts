@@ -1,4 +1,4 @@
-import { IsDate, IsNotEmpty, IsNumber } from "class-validator";
+import { IsDate, IsNotEmpty, isNumber, IsNumber } from "class-validator";
 
 export class CreateRentDto{
 
@@ -23,6 +23,9 @@ export class CreateRentDto{
 
     @IsNumber()
     distance? : number;
+
+    @IsNumber()
+    readonly userId : number;
 
     
 }
