@@ -1,3 +1,4 @@
+import { ApiProperty } from "@nestjs/swagger";
 import { IsDate, IsNotEmpty, isNumber, IsNumber } from "class-validator";
 
 export class CreateRentDto{
@@ -8,9 +9,11 @@ export class CreateRentDto{
 
     @IsNotEmpty()
     @IsNumber()
+    @ApiProperty()
     readonly tariff : number;
 
     @IsNotEmpty()
+    @ApiProperty()
     readonly startDay: Date;
 
     @IsNotEmpty()
@@ -21,6 +24,7 @@ export class CreateRentDto{
     distance? : number;
 
     @IsNumber()
+    @ApiProperty()
     readonly userId : number;
 
     
